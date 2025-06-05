@@ -2,20 +2,14 @@
   "name": "WILLWAY",
   "short_name": "WILLWAY",
   "description": "Физическое и ментальное здоровье",
-  "start_url": "https://willway.pro",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
-  "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "icon-512.png",
-      "type": "image/png",
+      "src": "https://jacktura5.github.io/Willway-pwa/1-8.jpg",
+      "type": "image/jpeg",
       "sizes": "512x512"
     }
   ]
