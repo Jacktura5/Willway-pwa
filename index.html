@@ -1,38 +1,69 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <title>WILLWAY</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="manifest.json" />
-    <meta name="theme-color" content="#ffffff" />
-  </head>
-  <body>
-    <script>
-      // Автоматическая переадресация
-      window.location.href = "https://willway.pro";
-    </script>
+<head>
+  <meta charset="UTF-8" />
+  <title>WILLWAY</title>
 
-    <script>
-      // Регистрация service worker
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .register('service-worker.js')
-          .then(function (reg) {
-            console.log('✅ Service Worker зарегистрирован', reg);
-          })
-          .catch(function (error) {
-            console.error('❌ Ошибка регистрации Service Worker:', error);
-          });
-      }
+  <!-- КРИТИЧЕСКИ ВАЖНО -->
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-      // Запрос на подписку (включается, если браузер поддерживает Push API)
-      document.addEventListener('DOMContentLoaded', function () {
-        setTimeout(async function () {
-          const permission = await Notification.requestPermission();
-          console.log('🔔 Разрешение на уведомления:', permission);
-        }, 3000);
-      });
-    </script>
-  </body>
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WILLWAY">
+
+  <!-- Android -->
+  <meta name="theme-color" content="#000000">
+
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ВСТРОЕННЫЙ САЙТ -->
+  <iframe
+    src="https://willway.pro"
+    allow="autoplay; fullscreen; clipboard-write"
+  ></iframe>
+
+  <script>
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+
+    // Запрос push ТОЛЬКО после установки на экран «Домой»
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(async () => {
+        if ('Notification' in window) {
+          const perm = await Notification.requestPermission();
+          console.log('🔔 Push permission:', perm);
+        }
+      }, 4000);
+    });
+  </script>
+
+</body>
 </html>
