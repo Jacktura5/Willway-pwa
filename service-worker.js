@@ -17,8 +17,8 @@ self.addEventListener('push', function (event) {
   const title = data.title || 'Уведомление';
   const options = {
     body: data.body || 'У вас новое сообщение.',
-    icon: 'https://jacktura5.github.io/Willway-pwa/1-9.jpg',
-    badge: 'https://jacktura5.github.io/Willway-pwa/1-9.jpg'
+    icon: 'https://jacktura5.github.io/Willway-pwa/1-8.jpg',
+    badge: 'https://jacktura5.github.io/Willway-pwa/1-8.jpg'
   };
 
   event.waitUntil(
