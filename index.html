@@ -2,68 +2,112 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
+
   <title>WILLWAY</title>
 
-  <!-- КРИТИЧЕСКИ ВАЖНО -->
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- VIEWPORT -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
 
   <!-- iOS PWA -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="WILLWAY">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="WILLWAY" />
 
-  <!-- Android -->
-  <meta name="theme-color" content="#000000">
-
-  <link rel="manifest" href="manifest.json">
+  <!-- Android / general -->
+  <meta name="theme-color" content="#000000" />
 
   <style>
+    /* RESET */
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      background: #000;
-      overflow: hidden;
+      background: transparent;
+      overscroll-behavior: none;
     }
 
     body {
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+    /* PAGE WRAPPER */
+    .app {
+      min-height: 100vh;
+      background: #ffffff;
+    }
+
+    /* HERO / FIRST SCREEN */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+
+      /* 🔑 ВАЖНО: фон заходит под статус-бар */
+      padding-top: env(safe-area-inset-top);
+
+      background-image: url("https://pub-45753735113b4919b53373bff149bfa9.r2.dev/IMG_8973.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* затемнение снизу как в плеере */
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0.15) 55%,
+        rgba(0,0,0,0.55) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: #ffffff;
+      padding: 24px 16px calc(24px + env(safe-area-inset-bottom));
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    p {
+      margin-top: 12px;
+      font-size: 16px;
+      opacity: 0.9;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ВСТРОЕННЫЙ САЙТ -->
-  <iframe
-    src="https://willway.pro"
-    allow="autoplay; fullscreen; clipboard-write"
-  ></iframe>
+  <div class="app">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>WILLWAY</h1>
+        <p>Физическое и ментальное здоровье</p>
+      </div>
+    </section>
+  </div>
 
+  <!-- SERVICE WORKER -->
   <script>
-    // Service Worker
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
+      navigator.serviceWorker
+        .register('service-worker.js')
+        .then(reg => console.log('✅ Service Worker зарегистрирован'))
+        .catch(err => console.error('❌ Service Worker error', err));
     }
-
-    // Запрос push ТОЛЬКО после установки на экран «Домой»
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(async () => {
-        if ('Notification' in window) {
-          const perm = await Notification.requestPermission();
-          console.log('🔔 Push permission:', perm);
-        }
-      }, 4000);
-    });
   </script>
 
 </body>
 </html>
+
